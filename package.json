@@ -1,0 +1,19 @@
+{
+  "name": "mymultiagentsmartterrain",
+  "version": "1.0.0",
+  "description": "Visual representation of multiagentsmartterrain",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vHepp/MyMultiAgentSmartTerrain.git"
+  },
+  "author": "Vincent Hepola",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vHepp/MyMultiAgentSmartTerrain/issues"
+  },
+  "homepage": "https://github.com/vHepp/MyMultiAgentSmartTerrain#readme"
+}
