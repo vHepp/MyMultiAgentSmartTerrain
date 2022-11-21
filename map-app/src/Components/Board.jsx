@@ -11,6 +11,10 @@ const Board = () => {
 
 	const n = 10, m = 10;
 
+	const [prob, setProb] = useState(null)
+	const [decay, setDecay] = useState(null)
+
+
 
 	const [sources, setSources] = useState([
 		{
@@ -20,8 +24,6 @@ const Board = () => {
 			decay: 5
 		}
 	])
-
-	const decay = 5;
 
 	useEffect(() => {
 		dispatch({ type: "BOARD", payload: { sources: sources } })
@@ -38,37 +40,35 @@ const Board = () => {
 		for (let i = 0; i < n; i++) {
 			board[i] = [];
 			for (let j = 0; j < m; j++) {
-				board[i].push(<Tile key={`${i} ${j}`} i={i} j={j} sources={sources} decay={decay} isSource={false} />);
+				board[i].push(<Tile key={`${i} ${j}`} i={i} j={j} isSource={false} />);
 			}
 		}
 	}
 
-	//console.table(board)
+	const handleUpdate = () => {
 
-	/* useEffect(() => {
-		console.table(sources)
-
-		let newBoard = []
-
-		for (let i = 0; i < n; i++) {
-			newBoard[i] = [];
-			for (let j = 0; j < m; j++) {
-				newBoard[i].push(<Tile key={`${i} ${j}`} i={i} j={j} sources={sources} setSources={setSources} decay={decay} isSource={false} />);
-			}
-		}
-
-		setBoard(newBoard)
-
-		return () => {
-			//second
-		}
-	}, [sources, setBoard])
- */
+	}
 
 
 	return (
-		<div className='Board-wrapper'>
-			<div className="Board">{board}</div>
+		<div className='Board-component'>
+
+			<div className='Board-wrapper'>
+				<div className="Board">{board}</div>
+			</div>
+			<div className='info'>
+				<label style={{ color: "white" }}>
+					Prob:
+					<input style={{ margin: "2px" }} name="probability" type="text" />
+				</label>
+				<label style={{ color: "white" }}>
+					Decay Rate
+					<input style={{ margin: "2px" }} name="" type="text" />
+				</label>
+				<button onClick={() => handleUpdate()}>Update</button>
+			</div>
+
+
 		</div>
 	)
 }
