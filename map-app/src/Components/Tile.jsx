@@ -11,61 +11,93 @@ const Tile = (props) => {
 	const [j, setJ] = useState(props.j);
 	/* const [decay, setDecay] = useState(props.decay);
 	const [sources, setSources] = useState(props.sources) */
-	const [val, setVal] = useState(0.0)
+	const [val, setVal] = useState([])
+
 	const [isSource, setIsSource] = useState(props.isSource)
 
 	useEffect(() => {
-
-		//console.log(state)
-
 		if (state) {
-			if (!isSource) {
-				let diff = state.sources[0].prob - (state.sources[0].decay * (Math.abs(i - state.sources[0].row) + Math.abs(j - state.sources[0].column)))
+
+			let newVal = []
+			for (let c = 0; c < state.sources.length; c++) {
+				let diff = state.sources[c].prob - (state.sources[c].decay *
+					(Math.abs(i - state.sources[c].row) + Math.abs(j -
+						state.sources[c].column)))
 
 				if (diff >= 0) {
-					setVal(diff);
+					newVal[c] = diff;
 				}
 				else {
-					setVal(0);
-
+					newVal[c] = 0;
 				}
 			}
-			else {
-				setVal(state.sources[0].prob)
-			}
-		}
-		else {
-			setVal(0.0)
+
+			setVal(newVal)
 		}
 
-		return () => {
-
-		}
 	}, [state])
 
 
-	const handleClick = () => {
-		console.log(`Clicked ${i}, ${j}`)
+	const handleClick = (s) => {
+		console.log(`Clicked ${i}, ${j} #${s}`)
+
+		let newSources = state.sources
+
+		if (state.sources[s].row !== i && state.sources[s].column !== j) {
 
 
-		const sources = [{
-			row: i,
-			column: j,
-			prob: state.sources[0].prob,
-			decay: state.sources[0].decay
-		}]
+			newSources[s] = {
+				row: i,
+				column: j,
+				prob: state.sources[s].prob,
+				decay: state.sources[s].decay
+			}
 
-		dispatch({ type: "BOARD", payload: { sources: sources } })
+			//console.table(newSources)
+
+			dispatch({ type: "BOARD", payload: { sources: newSources } })
+			console.table(state.sources)
+		} else {
+			console.log(`Tile ${i}, ${j} is already source #${s}\'s source`)
+		}
+
 	}
 
 	return (
 		<div className='Tile'>
 			<div className='Tile-Info'>
-				<div>
-					{val}
-				</div>
+				{val.map(e => {
+					return (
+						<div>
+							{e / 100}
+						</div>
+					)
+				})}
+
 			</div>
-			<button style={{ /* fontSize: "10px", */ padding: "1px" }} onClick={() => handleClick()}>Source</button>
+			<div className='Tile-Buttons'>
+				{val.map((e, i) => {
+					return (
+						<div>
+							<button style={{ padding: "1px" }} onClick={() => {
+								handleClick(i)
+							}}>{i}</button>
+						</div>
+					)
+				})}
+			</div>
+			{/* <button style={{ padding: "1px" }} onClick={() => {
+				handleClick(0)
+			}}>0</button>
+			<button style={{ padding: "1px" }} onClick={() => {
+				handleClick(1)
+			}}>1</button>
+			<button style={{ padding: "1px" }} onClick={() => {
+				handleClick(2)
+			}}>2</button>
+			<button style={{ padding: "1px" }} onClick={() => {
+				handleClick(3)
+			}}>3</button> */}
 		</div>
 	)
 

@@ -22,6 +22,21 @@ const Board = () => {
 			column: 1,
 			prob: 75,
 			decay: 5
+		}, {
+			row: 9,
+			column: 9,
+			prob: 55,
+			decay: 1
+		}, {
+			row: 1,
+			column: 9,
+			prob: 35,
+			decay: 5
+		}, {
+			row: 9,
+			column: 1,
+			prob: 15,
+			decay: 1
 		}
 	])
 

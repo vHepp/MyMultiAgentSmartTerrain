@@ -21,3 +21,12 @@
   border: 3px solid green;
   border-radius: 8px;
 }
+
+.Tile-Buttons {
+  display: grid;
+
+  justify-content: center;
+
+  grid-template-columns: repeat(2, 50px);
+  grid-template-rows: repeat(2, 20px);
+}
