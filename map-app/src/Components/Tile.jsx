@@ -43,7 +43,7 @@ const Tile = (props) => {
 
 		let newSources = state.sources
 
-		if (state.sources[s].row !== i && state.sources[s].column !== j) {
+		if (state.sources[s].row !== i || state.sources[s].column !== j) {
 
 
 			newSources[s] = {
