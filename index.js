@@ -1,59 +1,60 @@
-console.log("Hello, World!")
-
-let n = 40, m = 40
-
-const map = [n];
-
-for (let i = 0; i < n; i++) {
-	map[i] = []
-	for (let j = 0; j < m; j++) {
-		map[i][j] = 0;
+class Solver {
+	constructor(guards) {
+		//console.log("Building a solver")
+		this.guards = guards;
+		//console.table(this.guards)
+		this.fillOppCosts();
 	}
-}
-//console.table(map)
 
-/*
-for (let i = 0; i < n; i++){
-	for (let j = 0; j < m; j++){
-		map[i][j] = 0;	
-	}
-}
-*/
+	fillOppCosts() {
+		this.costs = [];
 
+		for (let g = 0; g < this.guards.length; g++) {
+			let percents = this.guards[g].percents
 
-let location_1 = {
-	row: 24,
-	column: 24,
-	prob: 30
-}
+			this.costs[g] = [];
+			for (let i = 0; i < percents.length; i++) {
+				let sacrifice = 0;
+				for (let k = 1; k < percents.length; k++) {
+					sacrifice += percents[(i + k) % percents.length];
+				}
+				let gain = percents[i];
 
-let decay = 5;
-
-
-
-/* for (let i = 0; i < n; i++) {
-	for (let j = 0; j < m; j++) {
-		map[i][j] = 100;
-	}
-} */
-
-console.table(location_1)
-
-for (let i = 0; i < n; i++) {
-	for (let j = 0; j < m; j++) {
-		let diff = location_1.prob - (decay * (Math.abs(i - location_1.row) + Math.abs(j - location_1.column)))
-		if (diff >= 0) {
-			map[i][j] = diff;
-		}
-		else {
-			map[i][j] = 0;
+				//Math.round(((sacrifice / gain) + Number.EPSILON) * 100) / 100
+				//let oppCost = `${sacrifice / gain}`
+				let oppCost = Math.round(((sacrifice / gain) + Number.EPSILON) * 1000) / 1000
+				this.costs[g][i] = oppCost;
+			}
 		}
 
-		//console.log(`${location_1.prob} - (${decay} * (Math.abs(${i} - ${location_1.row}) + Math.abs(${j} - ${location_1.column}))`)
-		/* map[i][j] = `(${i},${j})`; */
+	}
+
+	displayGuards() {
+		console.table(this.guards)
+	}
+
+	displayCosts() {
+		console.table(this.costs);
 	}
 }
+// enddefine
 
 
+const guards = [{
+	guard: "0",
+	percents: [35, 50]
+},
+{
+	guard: "1",
+	percents: [30, 55]
+},
+{
+	guard: "2",
+	percents: [50, 55]
+},
+];
 
-console.table(map)
+const s = new Solver(guards);
+
+s.displayGuards()
+s.displayCosts()
